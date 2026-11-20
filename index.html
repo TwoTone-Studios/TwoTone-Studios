@@ -233,14 +233,14 @@ fetch('https://garmentstudio.co.uk/api/enquiries',{method:'POST',headers:{'Conte
 $("#mn").onclick=()=>{const o=$("#nv").classList.toggle("open");$("#mn").setAttribute("aria-expanded",o);$("#mn").textContent=o?"Close":"Menu"};
 
 new IntersectionObserver(e=>{document.querySelector('.sb').style.transform=e[0].isIntersecting?'translateY(120%)':'translateY(0)'}).observe(document.querySelector('.hero'));</script><link rel="preconnect" href="https://garmentstudio.co.uk" crossorigin><script>(function(){
-var B='https://garmentstudio.co.uk',busy=0;
+var B='https://garmentstudio.co.uk',busy=0,cur=null;
 function url(v){if(v==='all'||!v)return B+'/embed?category=all';if(v.charAt(0)==='/')return B+v;return B+'/embed?'+(/^[A-Za-z]{1,4}\d+[A-Za-z0-9]*$/.test(v)?'garment=':'category=')+encodeURIComponent(v.toLowerCase())}
 function open(u){if(busy)return;busy=1;
 var o=document.createElement('div');o.setAttribute('role','dialog');o.setAttribute('aria-label','Design your garment');
 o.style.cssText='position:fixed;inset:0;z-index:2147483000;background:#f6f6f4;display:grid;grid-template-rows:auto 1fr;opacity:0;transition:opacity .18s';
 var h=document.createElement('div');h.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0b0b0b;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top,0px))';
-var bk=document.createElement('button');bk.type='button';bk.innerHTML='<span aria-hidden="true" style="font-size:16px;line-height:1">&#8592;</span> Back';bk.setAttribute('aria-label','Go back');bk.style.cssText='font:800 12px/1 Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:12px 16px;border-radius:999px;border:1px solid #3a3a3d;background:transparent;color:#fff;cursor:pointer;display:inline-flex;gap:8px;align-items:center';
-var lg=document.createElement('span');lg.style.cssText='font:300 24px/1 Inter,system-ui,sans-serif;letter-spacing:-.05em;color:#fff;flex:1';lg.innerHTML='two<b style="font-weight:800">tone</b><i style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff2e7e;margin-left:3px"></i>';
+var bk=document.createElement('button');bk.type='button';bk.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';bk.setAttribute('aria-label','Back');bk.style.cssText='width:42px;height:42px;flex:none;border-radius:50%;border:1px solid #3a3a3d;background:#1c1c1e;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0';
+var lg=document.createElement('a');lg.href='/';lg.setAttribute('aria-label','TwoTone Studios home');lg.style.cssText='font:300 24px/1 Inter,system-ui,sans-serif;letter-spacing:-.05em;color:#fff;flex:1;text-decoration:none';lg.innerHTML='two<b style="font-weight:800">tone</b><i style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff2e7e;margin-left:3px"></i>';
 h.appendChild(bk);h.appendChild(lg);
 var x=document.createElement('button');x.type='button';x.textContent='Close';x.setAttribute('aria-label','Close and return to TwoTone Studios');x.style.cssText='font:800 12px/1 Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:12px 18px;border-radius:999px;border:0;background:#fff;color:#0b0b0b;cursor:pointer';
 h.appendChild(x);
@@ -250,11 +250,15 @@ l.innerHTML='<b style="color:#0b0b0b;font-weight:800;font-size:18px">Loading the
 var f=document.createElement('iframe');f.src=u;f.title='Garment Studio';f.allow='clipboard-write';f.style.cssText='position:absolute;inset:0;border:0;width:100%;height:100%;display:block;background:transparent';
 w.appendChild(l);w.appendChild(f);o.appendChild(h);o.appendChild(w);
 function pop(ev){if(!(ev.state&&ev.state.gs))c()}
-function c(){window.removeEventListener('popstate',pop);document.removeEventListener('keydown',e);o.remove();document.documentElement.style.overflow='';busy=0}
+function c(){window.removeEventListener('popstate',pop);window.removeEventListener('garment-studio',sh);window.removeEventListener('message',mh);cur=null;document.removeEventListener('keydown',e);o.remove();document.documentElement.style.overflow='';busy=0}
 function e(k){if(k.key==='Escape')c()}
-x.onclick=c;bk.onclick=function(){history.back()};try{history.pushState({gs:1},'')}catch(_){}window.addEventListener('popstate',pop);document.addEventListener('keydown',e);document.body.appendChild(o);document.documentElement.style.overflow='hidden';
+var canBack=true;function show(v){canBack=v!==false;bk.style.display=canBack?'inline-flex':'none'}
+function sh(ev){var d=ev&&ev.detail;if(d&&d.type==='screen')show(d.canGoBack)}
+function mh(ev){if(ev.origin!==B||ev.source!==f.contentWindow)return;var d=ev.data;if(d&&d.detail)d=d.detail;if(d&&d.type==='screen')show(d.canGoBack)}
+window.addEventListener('garment-studio',sh);window.addEventListener('message',mh);cur=f;
+x.onclick=c;bk.onclick=function(){if(canBack)window.GarmentStudio.back();else c()};try{history.pushState({gs:1},'')}catch(_){}window.addEventListener('popstate',pop);document.addEventListener('keydown',e);document.body.appendChild(o);document.documentElement.style.overflow='hidden';
 requestAnimationFrame(function(){o.style.opacity='1'});x.focus()}
-window.GarmentStudio={open:function(v){open(url(v))}};
+window.GarmentStudio={open:function(v){open(url(v))},back:function(){try{if(cur&&cur.contentWindow)cur.contentWindow.postMessage({source:'garment-studio-host',type:'back'},B)}catch(_){}}};
 function go(t){var v=t.getAttribute('data-gs-url')||t.getAttribute('data-gs-open');open(url(v))}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('[data-gs-open],[data-gs-url]');if(!t)return;ev.preventDefault();go(t)});
 document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;var t=ev.target.closest&&ev.target.closest('[data-gs-url][role=button]');if(t){ev.preventDefault();go(t)}});
