@@ -207,7 +207,7 @@ details{border-top:1.5px solid var(--bk)}details:last-child{border-bottom:1.5px 
 .bac{--p:50%;position:relative;max-width:760px;margin:0 auto;border-radius:24px;overflow:hidden;background:#f4f4f1}
 .bai{position:relative;aspect-ratio:4/5;overflow:hidden}
 .bai>img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.baa{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--p)) 0 0)}.bad{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
+.baa{position:absolute;inset:0;clip-path:inset(0 0 0 var(--p))}.bad{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
 .baa>img:first-child{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .bal{position:absolute;left:43%;top:36%;width:13%;transform:translate(-50%,-50%);height:auto}
 .bat{position:absolute;top:14px;padding:7px 14px;border-radius:99px;background:#fff;font:600 13px Inter;color:#0b0b0b}
@@ -318,10 +318,10 @@ details{border-top:1.5px solid var(--bk)}details:last-child{border-bottom:1.5px 
 .mapfb{text-decoration:none}.mapfb em{font-style:normal;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-top:10px;padding:10px 16px;border-radius:99px;background:#fff}
 .gsw{margin:28px 0 0;padding:0}.gsfb{background:#f5f5f7;border-radius:24px;padding:40px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}.gsfb span{color:#6e6e73;max-width:46ch}.gsfb[hidden]{display:none}#offers .sh{padding:0 16px}
 
-.bz{--p:0%;margin:36px 0}
+.bz{--p:100%;margin:36px 0}
 .bzi{position:relative;aspect-ratio:4/5;max-height:620px;border-radius:24px;overflow:hidden;background:#f4f4f1}
 .bzi>img,.bza img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.bza{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--p)) 0 0)}
+.bza{position:absolute;inset:0;clip-path:inset(0 0 0 var(--p))}
 .bzd{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
 .bzt{position:absolute;top:14px;padding:6px 12px;border-radius:99px;background:#fff;font:600 13px Inter,sans-serif;color:#0b0b0b}
 .bzt.l{left:14px}.bzt.r{right:14px}
@@ -337,7 +337,7 @@ details{border-top:1.5px solid var(--bk)}details:last-child{border-bottom:1.5px 
 (function(){const t=()=>{if(location.hash)return;try{history.scrollRestoration='manual'}catch(e){}const h=document.documentElement;h.style.scrollBehavior='auto';scrollTo(0,0);(document.querySelector('.top')||document.body).scrollIntoView({block:'start',behavior:'instant'});h.style.scrollBehavior=''};t();addEventListener('load',t);addEventListener('pageshow',t);setTimeout(t,120);setTimeout(t,400)})();const $=s=>document.querySelector(s);$("#mn").onclick=()=>{const o=$("#nv").classList.toggle("open");$("#mn").setAttribute("aria-expanded",o);$("#mn").textContent=o?"Close":"Menu"};
 const wt=document.getElementById('wyt');if(wt){document.getElementById('wyp').onclick=()=>wt.scrollBy({left:-wt.clientWidth*.7,behavior:'smooth'});document.getElementById('wyn').onclick=()=>wt.scrollBy({left:wt.clientWidth*.7,behavior:'smooth'})}
 document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-f]").forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("[data-c]").forEach(c=>c.classList.toggle("h",b.dataset.f!="all"&&c.dataset.c!=b.dataset.f))});
-document.querySelectorAll('.bz').forEach(function(z){var r=z.querySelector('input');function u(){z.style.setProperty('--p',r.value+'%')}r.addEventListener('input',u);u()});
+document.querySelectorAll('.bz').forEach(function(z){var r=z.querySelector('input');function u(){z.style.setProperty('--p',(100-r.value)+'%')}r.addEventListener('input',u);u()});
 </script><link rel="preconnect" href="https://garmentstudio.co.uk" crossorigin><script>(function(){
 var B='https://garmentstudio.co.uk',busy=0;
 function url(v){if(v==='all'||!v)return B+'/embed?category=all';if(v.charAt(0)==='/')return B+v;return B+'/embed?'+(/^[A-Za-z]{1,4}\d+[A-Za-z0-9]*$/.test(v)?'garment=':'category=')+encodeURIComponent(v.toLowerCase())}
