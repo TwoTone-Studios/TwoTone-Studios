@@ -351,15 +351,14 @@ h.appendChild(x);
 var w=document.createElement('div');w.style.cssText='position:relative;min-height:0;background:#f6f6f4';
 var l=document.createElement('div');l.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font:600 15px Inter,system-ui,sans-serif;color:#6e6e73;text-align:center;padding:24px';
 l.innerHTML='<b style="color:#0b0b0b;font-weight:800;font-size:18px">Loading the studio</b><span>Taking longer than usual? <a href="'+u+'" target="_blank" rel="noopener" style="color:#0b0b0b">Open it in a new tab</a></span>';
-var f=document.createElement('iframe');f.src=u;f.title='Garment Studio';f.allow='clipboard-write';f.style.cssText='position:absolute;inset:0;border:0;width:100%;height:100%;display:block;background:transparent';
+var f=document.createElement('iframe');f.src=u;f.title='Garment Studio';f.allow='clipboard-write';f.referrerPolicy='strict-origin-when-cross-origin';f.style.cssText='position:absolute;inset:0;border:0;width:100%;height:100%;display:block;background:transparent';
 w.appendChild(l);w.appendChild(f);o.appendChild(h);o.appendChild(w);
 function pop(ev){if(!(ev.state&&ev.state.gs))c()}
-function c(){window.removeEventListener('popstate',pop);window.removeEventListener('garment-studio',sh);window.removeEventListener('message',mh);cur=null;document.removeEventListener('keydown',e);o.remove();document.documentElement.style.overflow='';busy=0}
+function c(){window.removeEventListener('popstate',pop);window.removeEventListener('message',mh);cur=null;document.removeEventListener('keydown',e);o.remove();document.documentElement.style.overflow='';busy=0}
 function e(k){if(k.key==='Escape')c()}
 var canBack=true;function show(v){canBack=v!==false;bk.style.display=canBack?'inline-flex':'none'}
-function sh(ev){var d=ev&&ev.detail;if(d&&d.type==='screen')show(d.canGoBack)}
-function mh(ev){if(ev.origin!==B||ev.source!==f.contentWindow)return;var d=ev.data;if(d&&d.detail)d=d.detail;if(d&&d.type==='screen')show(d.canGoBack)}
-window.addEventListener('garment-studio',sh);window.addEventListener('message',mh);cur=f;
+function mh(ev){if(ev.origin!==B)return;var d=ev.data;if(d&&d.source==='garment-studio'&&d.type==='screen')show(d.canGoBack)}
+window.addEventListener('message',mh);cur=f;
 x.onclick=c;bk.onclick=function(){if(canBack)window.GarmentStudio.back();else c()};try{history.pushState({gs:1},'')}catch(_){}window.addEventListener('popstate',pop);document.addEventListener('keydown',e);document.body.appendChild(o);document.documentElement.style.overflow='hidden';
 requestAnimationFrame(function(){o.style.opacity='1'});x.focus()}
 window.GarmentStudio={open:function(v){open(url(v))},back:function(){try{if(cur&&cur.contentWindow)cur.contentWindow.postMessage({source:'garment-studio-host',type:'back'},B)}catch(_){}}};
