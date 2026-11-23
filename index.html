@@ -239,8 +239,9 @@ $("#mn").onclick=()=>{const o=$("#nv").classList.toggle("open");$("#mn").setAttr
 
 new IntersectionObserver(e=>{document.querySelector('.sb').style.transform=e[0].isIntersecting?'translateY(120%)':'translateY(0)'}).observe(document.querySelector('.hero'));</script><link rel="preconnect" href="https://garmentstudio.co.uk" crossorigin><script>(function(){
 var B='https://garmentstudio.co.uk',busy=0,cur=null;
+var K='gs-embed-open';function mem(u){try{sessionStorage.setItem(K,JSON.stringify({url:u,at:Date.now()}))}catch(_){}}function forget(){try{sessionStorage.removeItem(K)}catch(_){}}function rem(){try{var m=JSON.parse(sessionStorage.getItem(K));return m&&Date.now()-m.at<216e5&&typeof m.url==='string'&&m.url.indexOf(B+'/embed')===0?m.url:null}catch(_){return null}}
 function url(v){if(v==='all'||!v)return B+'/embed?category=all';if(v.charAt(0)==='/')return B+v;return B+'/embed?'+(/^[A-Za-z]{1,4}\d+[A-Za-z0-9]*$/.test(v)?'garment=':'category=')+encodeURIComponent(v.toLowerCase())}
-function open(u){if(busy)return;busy=1;
+function open(u){if(busy)return;busy=1;mem(u);
 var o=document.createElement('div');o.setAttribute('role','dialog');o.setAttribute('aria-label','Design your garment');
 o.style.cssText='position:fixed;inset:0;z-index:2147483000;background:#f6f6f4;display:grid;grid-template-rows:auto 1fr;opacity:0;transition:opacity .18s';
 var h=document.createElement('div');h.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0b0b0b;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top,0px))';
@@ -255,10 +256,10 @@ l.innerHTML='<b style="color:#0b0b0b;font-weight:800;font-size:18px">Loading the
 var f=document.createElement('iframe');f.src=u;f.title='Garment Studio';f.allow='clipboard-write';f.referrerPolicy='strict-origin-when-cross-origin';f.style.cssText='position:absolute;inset:0;border:0;width:100%;height:100%;display:block;background:transparent';
 w.appendChild(l);w.appendChild(f);o.appendChild(h);o.appendChild(w);
 function pop(ev){if(!(ev.state&&ev.state.gs))c()}
-function c(){window.removeEventListener('popstate',pop);window.removeEventListener('message',mh);cur=null;document.removeEventListener('keydown',e);o.remove();document.documentElement.style.overflow='';busy=0}
+function c(){forget();window.removeEventListener('popstate',pop);window.removeEventListener('message',mh);cur=null;document.removeEventListener('keydown',e);o.remove();document.documentElement.style.overflow='';busy=0}
 function e(k){if(k.key==='Escape')c()}
 var canBack=true;function show(v){canBack=v!==false;bk.style.display=canBack?'inline-flex':'none'}
-function mh(ev){if(ev.origin!==B)return;var d=ev.data;if(d&&d.source==='garment-studio'&&d.type==='screen')show(d.canGoBack)}
+function mh(ev){if(ev.origin!==B)return;var d=ev.data;if(d&&d.source==='garment-studio'&&d.type==='screen'){show(d.canGoBack);if(typeof d.url==='string'&&/^\/embed(\/[\w-]+)*(\?[\w=&%.,+-]*)?$/.test(d.url))mem(B+d.url)}}
 window.addEventListener('message',mh);cur=f;
 x.onclick=c;bk.onclick=function(){if(canBack)window.GarmentStudio.back();else c()};try{history.pushState({gs:1},'')}catch(_){}window.addEventListener('popstate',pop);document.addEventListener('keydown',e);document.body.appendChild(o);document.documentElement.style.overflow='hidden';
 requestAnimationFrame(function(){o.style.opacity='1'});x.focus()}
@@ -267,4 +268,5 @@ function go(t){var v=t.getAttribute('data-gs-url')||t.getAttribute('data-gs-open
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('[data-gs-open],[data-gs-url]');if(!t)return;ev.preventDefault();go(t)});
 document.addEventListener('keydown',function(ev){if(ev.key!=='Enter')return;var t=ev.target.closest&&ev.target.closest('[data-gs-url][role=button]');if(t){ev.preventDefault();go(t)}});
 var warm=function(){try{var p=document.createElement('link');p.rel='prefetch';p.href=B+'/embed?category=all';document.head.appendChild(p)}catch(e){}};
-if('requestIdleCallback' in window)requestIdleCallback(warm,{timeout:4000});else setTimeout(warm,2500)})()</script></body></html>
+if('requestIdleCallback' in window)requestIdleCallback(warm,{timeout:4000});else setTimeout(warm,2500);
+var again=rem();if(again){if(document.body)open(again);else document.addEventListener('DOMContentLoaded',function(){open(again)})}})()</script></body></html>
